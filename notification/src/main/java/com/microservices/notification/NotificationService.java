@@ -17,7 +17,7 @@ public class NotificationService {
                 Notification.builder()
                         .toCustomerId(notificationRequest.toCustomerId())
                         .toCustomerEmail(notificationRequest.toCustomerName())
-                        .sender("MicroService")
+                        .sender("Microservices App")
                         .message(notificationRequest.message())
                         .sentAt(LocalDateTime.now())
                         .build()

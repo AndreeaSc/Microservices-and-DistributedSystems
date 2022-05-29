@@ -3,7 +3,6 @@ package com.microservices.customer;
 import com.microservices.amqp.RabbitMQMessageProducer;
 import com.microservices.clients.fraud.FraudCheckResponse;
 import com.microservices.clients.fraud.FraudClient;
-import com.microservices.clients.notification.NotificationClient;
 import com.microservices.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final NotificationClient notificationClient;
     private final FraudClient fraudClient;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
@@ -26,8 +24,10 @@ public class CustomerService {
         // todo: check if email valid
         // todo: check if email not taken
         customerRepository.saveAndFlush(customer);
+
         FraudCheckResponse fraudCheckResponse =
                 fraudClient.isFraudster(customer.getId());
+
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
@@ -35,7 +35,7 @@ public class CustomerService {
         NotificationRequest notificationRequest = new NotificationRequest(
                 customer.getId(),
                 customer.getEmail(),
-                String.format("Hi %s, welcome to Microservices...",
+                String.format("Hi %s, welcome to Microservices app...",
                         customer.getFirstName())
         );
         rabbitMQMessageProducer.publish(

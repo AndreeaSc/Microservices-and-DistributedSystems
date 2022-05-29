@@ -1,4 +1,5 @@
 package com.microservices.notification;
+
 import com.microservices.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
