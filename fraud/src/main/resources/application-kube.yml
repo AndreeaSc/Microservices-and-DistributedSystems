@@ -19,7 +19,7 @@ spring:
       base-url: http://zipkin:9411
 
 eureka:
-  client:F
+  client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
